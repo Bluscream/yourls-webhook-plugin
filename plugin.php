@@ -11,7 +11,18 @@ if ( !defined( 'YOURLS_ABSPATH' ) ) die();
 // Hook into new link creation
 yourls_add_action( 'insert_link', 'wh_on_insert_link', 10, 6 );
 
-function wh_on_insert_link( $insert, $url, $keyword, $title, $timestamp, $ip ) {
+function wh_on_insert_link( $insert, $url = null, $keyword = null, $title = null, $timestamp = null, $ip = null ) {
+    // If YOURLS packed all arguments into a single array (typical for actions)
+    if ( is_array( $insert ) ) {
+        $args = $insert;
+        $insert = isset( $args[0] ) ? $args[0] : false;
+        $url = isset( $args[1] ) ? $args[1] : '';
+        $keyword = isset( $args[2] ) ? $args[2] : '';
+        $title = isset( $args[3] ) ? $args[3] : '';
+        $timestamp = isset( $args[4] ) ? $args[4] : '';
+        $ip = isset( $args[5] ) ? $args[5] : '';
+    }
+
     // If the insert failed, do nothing
     if ( !$insert ) {
         return;
