@@ -1,29 +1,52 @@
-# yourls-webhook-plugin
+# Webhook Notification Plugin for YOURLS
 
-Sends a JSON POST webhook notification when a new shortened link is successfully created. This is designed to integrate YOURLS with Home Assistant, Discord, Slack, Node-RED, or any custom API.
+Sends a JSON POST webhook notification immediately when a new shortened link is successfully created. This is designed to integrate YOURLS with Home Assistant, Discord, Slack, Node-RED, or any custom API.
 
 ## Features
 
 - **Automated Webhooks**: Fires a POST request immediately after a new redirect is created.
 - **Custom Authorization/Headers**: Supports a simple token authorization value (defaulting to the `Authorization` header) or custom header mappings (e.g. `X-HA-Access: your-token`).
-- **Standard Payload**:
-  ```json
-  {
-    "event": "link_created",
-    "keyword": "example",
-    "short_url": "https://sho.rt/example",
-    "long_url": "https://example.com/some/destination/page",
-    "title": "Example Page Title",
-    "timestamp": "2026-07-11 22:30:00",
-    "ip": "192.168.1.50"
-  }
-  ```
+- **Standard Payload**: Contains complete metadata for the created link.
+
+## Screenshots
+
+<details>
+<summary>Screenshot(s)</summary>
+
+| Webhook Notification Settings |
+| :---: |
+| ![Webhook Notification Settings Panel](https://i.imgur.com/tErKdg4.png) |
+
+</details>
 
 ## Installation
 
 1. Copy or move the `webhook` directory into your YOURLS `user/plugins/` directory.
 2. Go to your YOURLS Administration Panel and navigate to **Plugins**.
 3. Locate **Webhook Notification** and click **Activate**.
+
+## Settings & Configuration
+
+Navigate to **Webhook Notification Settings** in the admin sidebar navigation menu to configure the following settings:
+
+| Setting Option | Type | Default Value | Description |
+| :--- | :--- | :--- | :--- |
+| `Webhook URL` | String | `""` | The destination URL to send HTTP POST requests to (e.g. `https://your-api.com/webhook`). |
+| `Authorization / Custom Header` | String | `""` | Optional authorization key. Entering a token defaults to the `Authorization` header. Enter `HeaderName: value` to send custom headers. |
+
+### Payload Format (JSON)
+
+```json
+{
+  "event": "link_created",
+  "keyword": "example",
+  "short_url": "https://sho.rt/example",
+  "long_url": "https://example.com/some/destination/page",
+  "title": "Example Page Title",
+  "timestamp": "2026-07-11 22:30:00",
+  "ip": "192.168.1.50"
+}
+```
 
 ## Home Assistant Integration Example
 
